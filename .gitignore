@@ -36,3 +36,6 @@ build/
 .mvn
 mvnw.*
 mvnw
+
+.pdf
+.txt
