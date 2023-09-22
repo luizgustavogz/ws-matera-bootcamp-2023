@@ -12,6 +12,7 @@ import lombok.Data;
 @Data
 @Builder
 @Entity // CONTA
+@Table(name = "Conta")
 public class Conta {
 
     @Id
