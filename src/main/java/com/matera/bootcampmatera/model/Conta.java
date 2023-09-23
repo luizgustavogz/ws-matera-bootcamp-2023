@@ -1,33 +1,39 @@
 package com.matera.bootcampmatera.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.Builder;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Data
-@Builder
-@Entity // CONTA
-@Table(name = "Conta")
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+//@Table(name = "Conta")
 public class Conta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "numero")
+
+    @Column(name = "NUMERO")
     private String numConta; //NUMERO_CONTA
+    @Column(name = "AGENCIA")
     private String agencia; // AGENCIA
+    @Column(name = "SALDO")
+    private BigDecimal saldo = BigDecimal.ZERO;
+    @OneToOne
+    @Column(name = "TITULAR")
+    private Titular titular;
 
-    public Conta(){}
+    public void debito(BigDecimal valor) {
+        saldo = saldo.subtract(valor);
+    }
 
-    public Conta(Long id, String numConta, String agencia) {
-        this.id = id;
-        this.numConta = numConta;
-        this.agencia = agencia;
+    public void credito(BigDecimal valor) {
+        saldo = saldo.add(valor);
     }
 }
 

@@ -1,5 +1,6 @@
-# ws-matera-bootcamp-2023
-Workspace do Matera Bootcamp 09.2023 - API Rest. Utilizando Java, Spring Boot, Spring Initializr, Spring Data, H2 Database, Postman
+# Workspace do Matera Bootcamp 09.2023
+- API Rest, Java, Spring Boot, Spring Initializr, Spring Data, H2 Database, JPA, Postman/Insomnia
+
 
 # Microserviços
 
@@ -9,57 +10,79 @@ Workspace do Matera Bootcamp 09.2023 - API Rest. Utilizando Java, Spring Boot, S
 - Serviços autônomos -> independência, tem sua própria base de dados
 
 ## Vantagens:
-- independência
-- não é ponto único de falha
-- manutenção por serem independentes
-- agilidade
-- escalabilidade:
-	- vertical: aumentar os recursos da máquina (hardware)
-	- horizontal: aumentar os serviços
-- independência de tecnologia entre os microserviços
+- Independência
+- Não é ponto único de falha
+- Manutenção por serem independentes
+- Agilidade
+- Escalabilidade:
+	- Vertical: aumentar os recursos da máquina (hardware)
+	- Horizontal: aumentar os serviços
+- Independência de tecnologia entre os microserviços
 
 ## Desvantagens:
-- custo
-- mais complexo de manter
-- comunicação entre microserviços
-- infra fica mais complexa
-- dificuldade em manter a padronização entre todos os projetos sem "quebrar" a flexibilidade da equipe
+- Custo
+- Mais complexo de manter
+- Comunicação entre microserviços
+- Infra fica mais complexa
+- Dificuldade em manter a padronização entre todos os projetos sem "quebrar" a flexibilidade da equipe
+
 
 # Microserviço vs Monolito
 
 ## Monolito:
-- mais de um contexto
-- mais de um domínio
-- um único serviço rodando
-- um sistema único que centraliza todas as funcionalidades da aplicação
-- preço mais barato
-- ao ter uma única linguagem, fica mais fácil a manutenção
+- Mais de um contexto
+- Mais de um domínio
+- Um único serviço rodando
+- Um sistema único que centraliza todas as funcionalidades da aplicação
+- Preço mais barato
+- Ao ter uma única linguagem, fica mais fácil a manutenção
 
 ## Microserviços:
-- rodando em diferentes instâncias
-- diferentes tecnologias
+- Rodando em diferentes instâncias
+- Diferentes tecnologias
 
-depende da necessidade?
 
 # Stateless vs Stateful
 
 ## Stateless:
-- não mantém estado ou informações sobre sessões entre as chamadas
-- chamadas independentes
+- Não mantém estado ou informações sobre sessões entre as chamadas
+- Chamadas independentes
 
 ## Stateful:
-- mantém o estado entre as chamadas. Pode armazenar dados sobre sessões ou transações e lembrar o estado atual do cliente
-- preserva o dado durante toda execução
+- Mantém o estado entre as chamadas. Pode armazenar dados sobre sessões ou transações e lembrar o estado atual do cliente
+- Preserva o dado durante toda execução
 
-tipos de comunicação entre microserviços:
 
 # Tipos de comunicação entre Microserviços
 
 ## Síncrona:
-- ao fazer uma chamada você espera uma resposta. Ex: REST, SOAP
+- Ao fazer uma chamada você espera uma resposta. Ex: REST, SOAP
 
 ## Assíncrona
-- não espera uma resposta instantânea. Ex: Mensageria, Comunicação orientada a eventos
+- Não espera uma resposta instantânea. Ex: Mensageria, Comunicação orientada a eventos
 
 
 ### MicroA -> posta uma mensagem num serviço de mensageria. <- MicroB
+
+
+# Anotações de relacionamento (Associações):
+
+### @ManyToOne
+- n > 1
+
+### @ManyToMany
+- n > n
+
+### @OneToOne
+- 1 > 1
+
+### @JoinColumn
+
+### FetchType.Lazy (Preguiçoso)
+- Todo relacionamento terminado em ToMany
+- Todos os mapeamentos do Hibernate são Lazy por padrão, se não especificar o tipo de "fetch" (busca)
+- Carrega sobre demanda
+
+### FetchType.Eager (Ansioso)
+- Todo relacionamento terminado em ToOne
+- Carrega todos os dados de uma vez
