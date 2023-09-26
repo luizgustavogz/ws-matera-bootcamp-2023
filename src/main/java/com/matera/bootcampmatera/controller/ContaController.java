@@ -1,13 +1,13 @@
 package com.matera.bootcampmatera.controller;
 
+import com.matera.bootcampmatera.dto.RequestPixDTO;
+import com.matera.bootcampmatera.dto.ResponsePixDTO;
 import com.matera.bootcampmatera.exception.ContaInvalidaException;
 import com.matera.bootcampmatera.model.Conta;
 import com.matera.bootcampmatera.model.Titular;
 import com.matera.bootcampmatera.service.ContaService;
-import com.matera.bootcampmatera.repository.TitularRepository;
 import com.matera.bootcampmatera.service.TitularService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
@@ -44,6 +43,11 @@ public class ContaController {
     @GetMapping
     public List<Conta> getAll() {
         return contaService.getContas();
+    }
+
+    @PostMapping("/lancamentos/pix")
+    public ResponseEntity<ResponsePixDTO> pix(@RequestBody RequestPixDTO pixDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(contaService.pix(pixDTO));
     }
 
     @PostMapping("/lancamentos/{idConta}/debito/{valor}")

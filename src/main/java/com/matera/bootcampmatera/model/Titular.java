@@ -18,5 +18,5 @@ public class Titular {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String Cpf;
+    private String cpf;
 }

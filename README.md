@@ -1,5 +1,5 @@
 # Workspace do Matera Bootcamp 09.2023
-- API Rest, Java, Spring Boot, Spring Initializr, Spring Data, H2 Database, JPA, Postman/Insomnia
+- API Rest, Java, Spring Boot, Spring Initializr, Spring Data, H2 Database, JPA, Postman/Insomnia, Rest Assured
 
 
 # Microserviços

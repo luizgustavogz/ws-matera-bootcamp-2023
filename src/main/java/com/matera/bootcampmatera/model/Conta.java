@@ -1,5 +1,7 @@
 package com.matera.bootcampmatera.model;
 
+import com.matera.bootcampmatera.exception.ContaInvalidaException;
+import com.matera.bootcampmatera.exception.ContaSemSaldoException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,15 +19,10 @@ public class Conta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "NUMERO")
-    private String numConta; //NUMERO_CONTA
-    @Column(name = "AGENCIA")
-    private String agencia; // AGENCIA
-    @Column(name = "SALDO")
+    private String numConta;
+    private String agencia;
     private BigDecimal saldo = BigDecimal.ZERO;
     @OneToOne
-    @Column(name = "TITULAR")
     private Titular titular;
 
     public void debito(BigDecimal valor) {
@@ -34,6 +31,15 @@ public class Conta {
 
     public void credito(BigDecimal valor) {
         saldo = saldo.add(valor);
+    }
+
+    public void enviarPix(Conta contaDestino, BigDecimal valor) {
+        if (this.saldo.compareTo(valor) <= 0) {
+            throw new ContaSemSaldoException("Conta sem saldo disponível.");
+        }
+
+        this.debito(valor);
+        contaDestino.credito(valor);
     }
 }
 
