@@ -1,5 +1,7 @@
 package com.matera.bootcampmatera.controller;
 
+import com.matera.bootcampmatera.client.BacenClient;
+import com.matera.bootcampmatera.dto.ContaDTO;
 import com.matera.bootcampmatera.dto.RequestPixDTO;
 import com.matera.bootcampmatera.dto.ResponsePixDTO;
 import com.matera.bootcampmatera.exception.ContaInvalidaException;
@@ -39,6 +41,7 @@ public class ContaController {
 
     private final ContaService contaService;
     private final TitularService titularService;
+    private final BacenClient bacenClient;
 
     @GetMapping
     public List<Conta> getAll() {
@@ -65,7 +68,18 @@ public class ContaController {
     @PostMapping
     public ResponseEntity<Conta> novaConta(@RequestBody Conta conta) throws ContaInvalidaException {
         Titular titular = conta.getTitular();
-        Titular titularSalvo = titularService.criarOuAtualizar(titular);
+        Titular titularSalvo = titularService.criarOuAtualizar(titular); //TODO: dualwrite?
+
+//        ContaDTO contaDTO = ContaDTO.builder()
+//                .numConta(conta.getNumConta())
+//                .saldo(conta.getSaldo())
+//                .agencia(conta.getAgencia())
+//                .chavePix(titularSalvo.getCpf())
+//                .build();
+
+        ContaDTO contaDTO = new ContaDTO(conta.getNumConta(), conta.getAgencia(), titularSalvo.getCpf());
+        bacenClient.criarConta(contaDTO);
+
         conta.setTitular(titular);
         return ResponseEntity.status(HttpStatus.CREATED).body(contaService.criarOuAtualizar(conta));
     }
