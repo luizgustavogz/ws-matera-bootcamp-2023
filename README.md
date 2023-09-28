@@ -3,7 +3,6 @@
 
 
 # Microserviços
-
 - Abordagem arquitetónica de desenvolvimento de software
 - Independência e desacoplamento
 - Responsabilidade única
@@ -86,3 +85,35 @@
 ### FetchType.Eager (Ansioso)
 - Todo relacionamento terminado em ToOne
 - Carrega todos os dados de uma vez
+
+
+# Threads
+- A mínima unidade de instruções programadas: threads do SO, threads do Java
+
+## Banco (nosso microserviço)
+- Java -> JVM -> faz o gerenciamento das threads -> JVM faz o gerenciamento da mínima unidade de trabalho
+- Chega um resquest em algum de nossos endpoints:
+	- Quando crio uma conta -> utiliza uma thread
+	- Quando faço um pix -> utiliza uma thread
+
+## Vantagens:
+- Processamento simunltâneo
+
+## Desvantagens:
+- Concorrência
+
+
+# Tipos de Locks
+
+## Otimista
+- Conflitos entre as threads são raros
+	- Quando acontecer podem ser envolvidos mecanismos de resolução
+- Várias threads podem acessar o recurso de forma simultânea
+- Versionado -> cada objeto tem uma versão. Na hora de alterar o objeto, verifica se:
+	- A versão que tenho em memória == versão que está salva na base de dados -> sucesso : erro
+	- A cada alteração do objeto, após salvar, a versão é alterada
+- No caso de Hibernate, gerencia a versão
+
+## Pessimista
+- Conflitos entre as threads acontecem com frequência
+- Os locks são restritos e faz com que uma única thread acesse o recurso ao mesmo tempo
