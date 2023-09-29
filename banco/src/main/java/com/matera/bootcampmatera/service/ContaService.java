@@ -6,7 +6,10 @@ import com.matera.bootcampmatera.repository.ContaRepository;
 import com.matera.bootcampmatera.exception.ContaInvalidaException;
 import com.matera.bootcampmatera.model.Conta;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,6 +19,7 @@ import static java.util.Objects.isNull;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ContaService {
 
     private final ContaRepository contaRepository;
@@ -28,7 +32,10 @@ public class ContaService {
         return new ResponsePixDTO(contaOrigem.getSaldo(), contaDestino.getSaldo());
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Conta criarOuAtualizar(Conta conta) throws ContaInvalidaException {
+        log.info("Nome da thread: {}", Thread.currentThread().getName());
+
         if (isNull(conta.getAgencia())) {
             throw new ContaInvalidaException(String.format("A conta não possui agencia"));
         }

@@ -10,8 +10,12 @@ import com.matera.bootcampmatera.model.Titular;
 import com.matera.bootcampmatera.service.ContaService;
 import com.matera.bootcampmatera.service.TitularService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +32,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/contas")
 @RequiredArgsConstructor
+@Slf4j
+//@Transactional(value = "customTransactionName")
 public class ContaController {
 //    Primeira maneira
 //    @Autowired
@@ -49,8 +55,12 @@ public class ContaController {
     }
 
     @PostMapping("/lancamentos/pix")
+    @Transactional(propagation = Propagation.REQUIRES_NEW) //Transação atômica
     public ResponseEntity<ResponsePixDTO> pix(@RequestBody RequestPixDTO pixDTO) {
-        return ResponseEntity.status(HttpStatus.OK).body(contaService.pix(pixDTO));
+
+        ResponsePixDTO response = contaService.pix(pixDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/lancamentos/{idConta}/debito/{valor}")
@@ -67,15 +77,13 @@ public class ContaController {
 
     @PostMapping
     public ResponseEntity<Conta> novaConta(@RequestBody Conta conta) throws ContaInvalidaException {
+        log.info("Iniciando o processo de criação de uma conta.");
+        log.info("Nome da thread: {}", TransactionSynchronizationManager.getCurrentTransactionName());
+
         Titular titular = conta.getTitular();
         Titular titularSalvo = titularService.criarOuAtualizar(titular); //TODO: dualwrite?
 
-//        ContaDTO contaDTO = ContaDTO.builder()
-//                .numConta(conta.getNumConta())
-//                .saldo(conta.getSaldo())
-//                .agencia(conta.getAgencia())
-//                .chavePix(titularSalvo.getCpf())
-//                .build();
+        //TODO: extrair código para um serviço
 
         ContaDTO contaDTO = new ContaDTO(conta.getNumConta(), conta.getAgencia(), titularSalvo.getCpf());
         bacenClient.criarConta(contaDTO);

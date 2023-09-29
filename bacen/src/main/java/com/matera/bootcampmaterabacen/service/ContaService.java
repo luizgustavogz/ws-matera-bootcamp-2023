@@ -12,10 +12,12 @@ public class ContaService {
     private final ContaRepository contaRepository;
 
     public Conta save(Conta conta) {
+        Conta x = null;
+        x.getChavePix();
         return contaRepository.save(conta);
     }
 
-    public Conta get(String chavePix){
+    public Conta get(String chavePix) {
         return contaRepository.findByChavePix(chavePix);
     }
 }

@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -33,6 +35,7 @@ public class Conta {
         saldo = saldo.add(valor);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void enviarPix(Conta contaDestino, BigDecimal valor) {
         if (this.saldo.compareTo(valor) <= 0) {
             throw new ContaSemSaldoException("Conta sem saldo disponível.");

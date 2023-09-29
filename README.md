@@ -125,5 +125,4 @@
 - Locks que precisa/pode ser feito em vários serviços
 - Pode ser feito na base de dados ou distribuído em sistemas externos (Ex: Redis, Memcache, Hazelcast)
 
-# Lock de Instância
-- 
+## Lock de Instância
