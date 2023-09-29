@@ -117,3 +117,13 @@
 ## Pessimista
 - Conflitos entre as threads acontecem com frequência
 - Os locks são restritos e faz com que uma única thread acesse o recurso ao mesmo tempo
+
+
+# Locks em Microserviços
+
+## Lock Distribuído
+- Locks que precisa/pode ser feito em vários serviços
+- Pode ser feito na base de dados ou distribuído em sistemas externos (Ex: Redis, Memcache, Hazelcast)
+
+# Lock de Instância
+- 
