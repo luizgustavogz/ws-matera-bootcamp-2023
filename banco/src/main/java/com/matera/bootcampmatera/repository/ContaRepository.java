@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ContaRepository extends JpaRepository<Conta, Long> {
 
@@ -22,12 +23,14 @@ public interface ContaRepository extends JpaRepository<Conta, Long> {
 
     Conta findByTitularCpf(String cpf);
 
-    @Query("select c from Conta c order by c.numConta asc")
-    Conta buscarContasOrdenadas();
+    Optional<Conta> findByAgenciaNumeroConta(String agencia, String numConta);
 
-    @Query("select c from Conta c where c.agencia = :agencia")
-    List<Conta> buscarContaPorAgencia(String agencia);
-
-    @Query(value = "select * from CONTA c where c.agencia = ?1", nativeQuery = true)
-    List<Conta> buscarContaPorAgenciaComQueryNativa(@Param("agencia") String agenciaComOutroNome);
+//    @Query("select c from Conta c order by c.numConta asc")
+//    Conta buscarContasOrdenadas();
+//
+//    @Query("select c from Conta c where c.agencia = :agencia")
+//    List<Conta> buscarContaPorAgencia(String agencia);
+//
+//    @Query(value = "select * from CONTA c where c.agencia = ?1", nativeQuery = true)
+//    List<Conta> buscarContaPorAgenciaComQueryNativa(@Param("agencia") String agenciaComOutroNome);
 }
